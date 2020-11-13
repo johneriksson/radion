@@ -1,0 +1,24 @@
+.channel {
+    display: flex;
+    height: 70px;
+    border-bottom: 1px solid var(--fg-color-3);
+}
+
+.channel .logo {
+    flex-basis: 50px;
+    background-color: var(--bg-color-4);
+}
+
+.channel .info {
+    flex: 1;
+    padding: 5px;
+}
+
+.channel .info h1 {
+    font-size: 1rem;
+}
+
+.channel .controls {
+    flex-basis: 100px;
+    background-color: var(--bg-color-3);
+}
