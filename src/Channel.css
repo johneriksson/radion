@@ -2,11 +2,12 @@
     display: flex;
     height: 70px;
     border-bottom: 1px solid var(--fg-color-3);
+    background-color: var(--bg-color-4);
 }
 
 .channel .logo {
-    flex-basis: 50px;
-    background-color: var(--bg-color-4);
+    /* flex-basis: 50px; */
+    background-color: var(--bg-color-3);
 }
 
 .channel .info {
@@ -19,6 +20,10 @@
 }
 
 .channel .controls {
-    flex-basis: 100px;
-    background-color: var(--bg-color-3);
+    flex-basis: 150px;
+    background-color: var(--bg-color-2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

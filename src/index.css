@@ -1,12 +1,12 @@
 :root {
-	--bg-color-1: #2b2e4a;
-	--bg-color-2: #e84545;
-	--bg-color-3: #903749;
-	--bg-color-4: #53354a;
+	--bg-color-1: #dd9866;
+	--bg-color-2: #8f384d;
+	--bg-color-3: #5c6e91;
+	--bg-color-4: #eeeded;
 
-	--fg-color-1: #EEEEEE;
-	--fg-color-2: #CCCCCC;
-	--fg-color-3: #B7ABAB;
+	--fg-color-1: #111111;
+	--fg-color-2: #222222;
+	--fg-color-3: #333333;
 
 	font-size: calc(16px + 1vmin);
 }

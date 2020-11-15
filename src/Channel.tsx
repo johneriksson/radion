@@ -1,29 +1,26 @@
 import React from "react";
+import Button from "./Button";
 
 import "./Channel.css"
 
 interface Props {
     id: string,
     title: string,
-    // streamURL: string,
     logoURL?: string,
     onPlayPauseClick: (channelId: string) => void,
+    onFavoriteClick: (channelId: string) => void,
     isPlaying: boolean,
+    favorite?: boolean,
 }
 
 const Channel: React.FC<Props> = ({
     id,
     title,
     onPlayPauseClick,
+    onFavoriteClick,
     isPlaying,
+    favorite,
 }) => {
-
-    const onClick = React.useCallback(
-        () => {
-            onPlayPauseClick(id);
-        },
-        [id, onPlayPauseClick],
-    );
 
     return (
         <div className="channel">
@@ -32,9 +29,8 @@ const Channel: React.FC<Props> = ({
                 <h1>{title}</h1>
             </div>
             <div className="controls">
-                <button onClick={onClick}>
-                    {isPlaying ? "PAUSE" : "PLAY"}
-                </button>
+                <Button title={isPlaying ? "PAUSE" : "PLAY"} onClick={e => onPlayPauseClick(id)} />
+                <Button title={favorite ? "UNSAVE" : "SAVE"} onClick={e => onFavoriteClick(id)} />
             </div>
         </div>
     );
