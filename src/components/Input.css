@@ -19,3 +19,7 @@
 
 	padding: 3px;
 }
+
+.input .error {
+	color: var(--color-error);
+}

@@ -10,6 +10,8 @@
 	--fg-color-1: #FFFFFF;
 	--fg-color-2: #fcdab7;
 
+
+	--color-error: #f44336;
 	font-size: calc(16px + 1vmin);
 }
 
@@ -46,7 +48,9 @@ html {
 	box-sizing: inherit;
 }
 
-
+::-webkit-scrollbar {
+	width: 0px;
+}
 
 .card-1 {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),

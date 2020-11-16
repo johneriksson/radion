@@ -1,37 +1,29 @@
 import React from "react";
-import { useMutation } from "urql";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { FieldError, useRegisterMutation } from "../generated/graphql";
 
 import "./Register.css"
-
-const REGISTER_MUT = `
-mutation Register($username: String!, $password: String!) {
-	register(options: { username: $username, password: $password }) {
-		errors {
-			field
-			message
-		}
-		user {
-			id
-			username
-		}
-	}
-}
-`;
 
 const Register = () => {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
+	const [errors, setErrors] = React.useState<FieldError[]>([]);
 
-	const [, register] = useMutation(REGISTER_MUT);
+	const [, register] = useRegisterMutation();
 
 	const onSubmit = React.useCallback(
-		(e) => {
+		async (e) => {
 			e.preventDefault();
-			console.log("email", email);
-			console.log("password", password);
-			register({ username: email, password: password });
+			const response = await register({ username: email, password: password });
+			if (response.data?.register.errors) {
+				setErrors(response.data.register.errors);
+				return;
+			}
+
+			setErrors([]);
+			setEmail("");
+			setPassword("");
 		},
 		[email, password, register]
 	);
@@ -39,6 +31,7 @@ const Register = () => {
 	return (
 		<div className="register">
 			<h1>Register</h1>
+
 			<form onSubmit={onSubmit}>
 				<Input
 					name="email"
@@ -47,6 +40,7 @@ const Register = () => {
 					value={email}
 					onChange={e => setEmail(e.target.value)}
 					required
+					errorMessage={errors.find(e => e.field === "username")?.message}
 				/>
 
 				<Input
@@ -56,6 +50,7 @@ const Register = () => {
 					value={password}
 					onChange={e => setPassword(e.target.value)}
 					required
+					errorMessage={errors.find(e => e.field === "password")?.message}
 				/>
 
 				<Button

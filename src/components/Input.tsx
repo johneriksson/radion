@@ -9,6 +9,7 @@ interface Props {
 	value: string,
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 	required?: boolean,
+	errorMessage?: string,
 }
 
 const Input: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<Props> = ({
 	value,
 	onChange,
 	required,
+	errorMessage,
 }) => {
 
 	return (
@@ -32,6 +34,7 @@ const Input: React.FC<Props> = ({
 				onChange={onChange}
 				required={required}
 			/>
+			{errorMessage && <p className="error">{errorMessage}</p>}
 		</div>
 	);
 }

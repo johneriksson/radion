@@ -13,7 +13,7 @@ import Channels from "./pages/Channels";
 import Register from "./pages/Register";
 
 const client = createClient({
-	url: "http://localhost:4000/graphql",
+	url: "http://192.168.10.128:4000/graphql",
 	fetchOptions: {
 		credentials: "include",
 	},
@@ -26,7 +26,11 @@ function App() {
 				<div className="App">
 					<header className="App-header">
 						<div>
-							<img className="logo" src={`${process.env.PUBLIC_URL}/img/pepejam.gif`}></img>
+							<img
+								className="logo"
+								alt="Logo"
+								src={`${process.env.PUBLIC_URL}/img/pepejam.gif`}
+							></img>
 							<h1>Radion</h1>
 						</div>
 						<div>

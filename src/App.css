@@ -2,7 +2,7 @@
 	background-color: var(--bg-color-1);
 	color: var(--fg-color-1);
 
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 
@@ -18,7 +18,7 @@
 	width: 100vw;
 	padding: 10px;
 	background-color: var(--bg-color-1);
-	-webkit-app-region: drag;
+	/* -webkit-app-region: drag; */
 
 	display: flex;
 	justify-content: space-between;
@@ -43,6 +43,7 @@
 
 .App-header > div {
 	display: flex;
+	align-items: center;
 }
 
 .App-main {
