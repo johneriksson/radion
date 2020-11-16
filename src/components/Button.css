@@ -1,5 +1,6 @@
 .button {
     background-color: var(--bg-color-3);
+	color: var(--fg-color-light);
     border: none;
     padding: 5px;
     border-radius: 2px;

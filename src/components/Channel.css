@@ -25,5 +25,9 @@
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+}
+
+.channel .controls button {
+	width: 65px;
 }

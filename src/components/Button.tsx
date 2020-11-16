@@ -4,16 +4,18 @@ import "./Button.css"
 
 interface Props {
     title: string,
-    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+	type?: "button" | "submit" | "reset" | undefined,
 }
 
 const Button: React.FC<Props> = ({
     title,
     onClick,
+	type = "button",
 }) => {
 
     return (
-        <button className="button" onClick={onClick}>
+        <button className="button" onClick={onClick} type={type}>
             <span>{title}</span>
         </button>
     );

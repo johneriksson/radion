@@ -7,6 +7,8 @@
 	--fg-color-1: #111111;
 	--fg-color-2: #222222;
 	--fg-color-3: #333333;
+	--fg-color-dark: #111111;
+	--fg-color-light: #EEEEEE;
 
 	font-size: calc(16px + 1vmin);
 }
