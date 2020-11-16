@@ -1,7 +1,9 @@
 .button {
     background-color: var(--bg-color-3);
-	color: var(--fg-color-light);
+	color: var(--fg-color-1);
     border: none;
     padding: 5px;
     border-radius: 2px;
+
+	cursor: pointer;
 }

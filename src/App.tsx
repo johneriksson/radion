@@ -25,8 +25,14 @@ function App() {
 			<Router>
 				<div className="App">
 					<header className="App-header">
-						<Link to="/">Channels</Link>
-						<Link to="/register">Register</Link>
+						<div>
+							<img className="logo" src={`${process.env.PUBLIC_URL}/img/pepejam.gif`}></img>
+							<h1>Radion</h1>
+						</div>
+						<div>
+							<Link to="/">Channels</Link>
+							<Link to="/register">Register</Link>
+						</div>
 					</header>
 					<div className="App-main">
 						<Switch>

@@ -23,7 +23,7 @@ const Channel: React.FC<Props> = ({
 }) => {
 
     return (
-        <div className="channel">
+        <div className="channel card-2">
             <div className="logo"></div>
             <div className="info">
                 <h1>{title}</h1>

@@ -16,8 +16,33 @@
 	left: 0;
 	height: 10vh;
 	width: 100vw;
+	padding: 10px;
 	background-color: var(--bg-color-1);
 	-webkit-app-region: drag;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.App-header a {
+	color: var(--fg-color-1);
+	margin: 10px;
+	border-bottom: 2px solid transparent;
+	text-decoration: none;
+}
+.App-header a:hover {
+	border-bottom: 2px solid var(--fg-color-1);
+}
+
+.App-header .logo {
+	width: 50px;
+	height: 50px;
+	margin-right: 5px;
+}
+
+.App-header > div {
+	display: flex;
 }
 
 .App-main {
@@ -25,4 +50,6 @@
 	flex-basis: 0;
 	flex-grow: 1;
 	flex-shrink: 0;
+
+	padding: 10px;
 }

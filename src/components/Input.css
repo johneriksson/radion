@@ -1,0 +1,21 @@
+.input {
+	display: flex;
+	flex-direction: column;
+}
+
+.input label {
+	margin-bottom: 2px;
+	font-size: .8rem;
+}
+
+.input input {
+	font-size: 1rem;
+	background-color: rgba(0, 0, 0, 0.2);
+	color: var(--fg-color-2);
+
+	border: none;
+	border-bottom: 1px solid var(--fg-color-2);
+	outline: none;
+
+	padding: 3px;
+}

@@ -15,7 +15,7 @@ const Button: React.FC<Props> = ({
 }) => {
 
     return (
-        <button className="button" onClick={onClick} type={type}>
+        <button className="button card-1" onClick={onClick} type={type}>
             <span>{title}</span>
         </button>
     );

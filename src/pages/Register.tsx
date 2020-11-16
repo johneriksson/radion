@@ -1,6 +1,9 @@
 import React from "react";
 import { useMutation } from "urql";
 import Button from "../components/Button";
+import Input from "../components/Input";
+
+import "./Register.css"
 
 const REGISTER_MUT = `
 mutation Register($username: String!, $password: String!) {
@@ -17,17 +20,11 @@ mutation Register($username: String!, $password: String!) {
 }
 `;
 
-interface Props {
-
-}
-
-const Register: React.FC<Props> = ({
-
-}) => {
+const Register = () => {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
-	const [{ }, register] = useMutation(REGISTER_MUT);
+	const [, register] = useMutation(REGISTER_MUT);
 
 	const onSubmit = React.useCallback(
 		(e) => {
@@ -40,23 +37,27 @@ const Register: React.FC<Props> = ({
 	);
 
 	return (
-		<div>
+		<div className="register">
 			<h1>Register</h1>
 			<form onSubmit={onSubmit}>
-				<input
+				<Input
+					name="email"
 					type="email"
+					label="Email"
 					value={email}
 					onChange={e => setEmail(e.target.value)}
-					placeholder="Email"
 					required
 				/>
-				<input
+
+				<Input
+					name="password"
 					type="password"
+					label="Password"
 					value={password}
 					onChange={e => setPassword(e.target.value)}
-					placeholder="Password"
 					required
 				/>
+
 				<Button
 					type="submit"
 					title="Submit"
