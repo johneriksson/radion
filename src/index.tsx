@@ -3,10 +3,21 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { createClient, Provider } from "urql";
+
+const client = createClient({
+	// url: "http://192.168.10.128:4000/graphql",
+	url: "http://localhost:4000/graphql",
+	fetchOptions: {
+		credentials: "include",
+	},
+});
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<Provider value={client}>
+			<App />
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("root"),
 );

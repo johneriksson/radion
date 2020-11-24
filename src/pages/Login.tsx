@@ -2,28 +2,30 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { FieldError, useRegisterMutation } from "../generated/graphql";
+import { FieldError, useLoginMutation } from "../generated/graphql";
+import { useUser } from "../hooks/useUser";
 
 import "./AuthPage.css"
 
-const Register = () => {
+const Login = () => {
 	const history = useHistory();
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [errors, setErrors] = React.useState<FieldError[]>([]);
+	const [, setUser] = useUser();
 
-	const [, register] = useRegisterMutation();
+	const [, login] = useLoginMutation();
 
 	const onSubmit = React.useCallback(
 		async (e) => {
 			e.preventDefault();
-			const response = await register({ options: { username: email, password: password } });
-			if (response.data?.register.errors) {
-				setErrors(response.data.register.errors);
+			const response = await login({ options: { username: email, password: password } });
+			if (response.data?.login.errors) {
+				setErrors(response.data.login.errors);
 				return;
 			}
 
-			if (!response.data?.register.user) {
+			if (!response.data?.login.user) {
 				setErrors([{
 					field: "general",
 					message: "Something went wrong...",
@@ -31,19 +33,27 @@ const Register = () => {
 				return;
 			}
 
+			setUser(response.data.login.user);
+			// if (setUser) {
+				// setUser?.({
+				// 	...response.data.login.user
+				// })
+			// }
+
+
 			history.replace("/");
 
 			setErrors([]);
 			setEmail("");
 			setPassword("");
 		},
-		[email, password, register, history]
+		[email, password, login, history, setUser]
 	);
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
 	return (
 		<div className="auth-page">
-			<h1>Register</h1>
+			<h1>Login</h1>
 
 			<form onSubmit={onSubmit}>
 				<Input
@@ -77,4 +87,4 @@ const Register = () => {
 	);
 }
 
-export default Register;
+export default Login;

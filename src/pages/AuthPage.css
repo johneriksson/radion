@@ -1,4 +1,4 @@
-.register {
+.auth-page {
 	max-height: 80%;
 	height: 100%;
 
@@ -8,16 +8,16 @@
 	align-items: center;
 }
 
-.register form {
+.auth-page form {
 	display: flex;
 	flex-direction: column;
 }
 
-.register .input {
+.auth-page .input {
 	margin: 10px 0;
 }
 
-.register button {
+.auth-page button {
 	margin-top: 10px;
 	font-size: 1rem;
 }

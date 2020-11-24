@@ -35,7 +35,8 @@
     "eject-react": "react-scripts eject",
     "build-electron": "electron-builder",
     "build": "npm run build-react && npm run build-electron",
-    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electromon .\"",
+    "start-electron": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electromon .\"",
+    "start": "npm run start-react",
     "gen": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
