@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useRegisterMutation } from "../generated/graphql";
@@ -6,6 +7,7 @@ import { FieldError, useRegisterMutation } from "../generated/graphql";
 import "./Register.css"
 
 const Register = () => {
+	const history = useHistory();
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [errors, setErrors] = React.useState<FieldError[]>([]);
@@ -21,6 +23,16 @@ const Register = () => {
 				return;
 			}
 
+			if (!response.data?.register.user) {
+				setErrors([{
+					field: "general",
+					message: "Something went wrong...",
+				}]);
+				return;
+			}
+
+			history.replace("/");
+
 			setErrors([]);
 			setEmail("");
 			setPassword("");
@@ -28,6 +40,7 @@ const Register = () => {
 		[email, password, register]
 	);
 
+	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
 	return (
 		<div className="register">
 			<h1>Register</h1>
@@ -57,6 +70,8 @@ const Register = () => {
 					type="submit"
 					title="Submit"
 				/>
+
+				{generalErrorMessage && <p style={{ color: "var(--color-error)" }}>{generalErrorMessage}</p>}
 			</form>
 		</div>
 	);
