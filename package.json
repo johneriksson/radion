@@ -35,7 +35,7 @@
     "eject-react": "react-scripts eject",
     "build-electron": "electron-builder",
     "build": "npm run build-react && npm run build-electron",
-    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electron .\"",
+    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electromon .\"",
     "gen": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
@@ -63,6 +63,7 @@
     "@graphql-codegen/typescript-urql": "^2.0.2",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
+    "electromon": "^1.0.10",
     "electron": "^10.1.5",
     "electron-builder": "^22.9.1",
     "wait-on": "^5.2.0"
