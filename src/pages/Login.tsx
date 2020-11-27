@@ -1,18 +1,18 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useLoginMutation } from "../generated/graphql";
+import { useIndexRedirectIfLoggedIn } from "../hooks/useIndexRedirectIfLoggedIn";
 import { useUser } from "../hooks/useUser";
 
-import "./AuthPage.css"
+import "./AuthPage.css";
 
 const Login = () => {
-	const history = useHistory();
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [errors, setErrors] = React.useState<FieldError[]>([]);
 	const [, setUser] = useUser();
+	useIndexRedirectIfLoggedIn();
 
 	const [, login] = useLoginMutation();
 
@@ -34,20 +34,11 @@ const Login = () => {
 			}
 
 			setUser(response.data.login.user);
-			// if (setUser) {
-				// setUser?.({
-				// 	...response.data.login.user
-				// })
-			// }
-
-
-			history.replace("/");
-
 			setErrors([]);
 			setEmail("");
 			setPassword("");
 		},
-		[email, password, login, history, setUser]
+		[email, password, login, setUser]
 	);
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;

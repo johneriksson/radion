@@ -7,15 +7,16 @@ import {
 } from "react-router-dom";
 
 import "./App.css";
+import { useLogoutMutation } from "./generated/graphql";
 import { useUser } from "./hooks/useUser";
 
 import Channels from "./pages/Channels";
 import Login from "./pages/Login";
-import Logout from "./pages/Logout";
 import Register from "./pages/Register";
 
 function App() {
-	const [user] = useUser();
+	const [user, setUser] = useUser();
+	const [, logout] = useLogoutMutation();
 
 	console.log("user", user);
 	return (
@@ -28,13 +29,22 @@ function App() {
 							alt="Logo"
 							src={`${process.env.PUBLIC_URL}/img/pepejam.gif`}
 						></img>
-						<h1>Radion</h1>
+						<h1>radion</h1>
 					</div>
 					<div>
 						<Link to="/">Channels</Link>
 						{user?.username && (
 							<>
-								<Link to="/logout">Logout</Link>
+								<Link
+									to="/"
+									onClick={async (e) => {
+										e.preventDefault();
+										await logout();
+										setUser(null);
+									}}
+								>
+									Logout
+								</Link>
 							</>
 						)}
 						{!user?.username && (
@@ -56,9 +66,6 @@ function App() {
 						</Route>
 						<Route path="/login">
 							<Login />
-						</Route>
-						<Route path="/logout">
-							<Logout />
 						</Route>
 					</Switch>
 				</div>

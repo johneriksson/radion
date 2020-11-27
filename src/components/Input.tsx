@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./Input.css"
+import "./Input.css";
 
 interface Props {
 	name: string,

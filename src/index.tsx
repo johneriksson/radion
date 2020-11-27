@@ -3,15 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createClient, Provider } from "urql";
+import { createUrqlClient } from "./utils/createUrqlClient";
+import { Provider } from "urql";
 
-const client = createClient({
-	// url: "http://192.168.10.128:4000/graphql",
-	url: "http://localhost:4000/graphql",
-	fetchOptions: {
-		credentials: "include",
-	},
-});
+const client = createUrqlClient();
 
 ReactDOM.render(
 	<React.StrictMode>

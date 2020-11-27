@@ -3,14 +3,18 @@ import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useRegisterMutation } from "../generated/graphql";
+import { useIndexRedirectIfLoggedIn } from "../hooks/useIndexRedirectIfLoggedIn";
+import { useUser } from "../hooks/useUser";
 
-import "./AuthPage.css"
+import "./AuthPage.css";
 
 const Register = () => {
 	const history = useHistory();
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [errors, setErrors] = React.useState<FieldError[]>([]);
+	const [, setUser] = useUser();
+	useIndexRedirectIfLoggedIn();
 
 	const [, register] = useRegisterMutation();
 
@@ -31,8 +35,7 @@ const Register = () => {
 				return;
 			}
 
-			history.replace("/");
-
+			setUser(response.data.register.user);
 			setErrors([]);
 			setEmail("");
 			setPassword("");
