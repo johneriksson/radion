@@ -21,3 +21,8 @@
 	margin-top: 10px;
 	font-size: 1rem;
 }
+
+.auth-page a {
+	align-self: flex-start;
+	margin-top: 10px;
+}

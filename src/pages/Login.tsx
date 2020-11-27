@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useLoginMutation } from "../generated/graphql";
@@ -71,6 +72,12 @@ const Login = () => {
 					type="submit"
 					title="Submit"
 				/>
+
+				<Link
+					to="/forgot-password"
+				>
+					Forgot password
+				</Link>
 
 				{generalErrorMessage && <p style={{ color: "var(--color-error)" }}>{generalErrorMessage}</p>}
 			</form>

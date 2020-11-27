@@ -9,8 +9,10 @@ import {
 import "./App.css";
 import { useLogoutMutation } from "./generated/graphql";
 import { useUser } from "./hooks/useUser";
+import ChangePassword from "./pages/ChangePassword";
 
 import Channels from "./pages/Channels";
+import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -45,6 +47,7 @@ function App() {
 								>
 									Logout
 								</Link>
+								<span className="username">{user.username}</span>
 							</>
 						)}
 						{!user?.username && (
@@ -66,6 +69,12 @@ function App() {
 						</Route>
 						<Route path="/login">
 							<Login />
+						</Route>
+						<Route path="/forgot-password">
+							<ForgotPassword />
+						</Route>
+						<Route path="/change-password/:token">
+							<ChangePassword />
 						</Route>
 					</Switch>
 				</div>

@@ -76,3 +76,13 @@ html {
 	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30),
 				0 15px 12px rgba(0, 0, 0, 0.22);
 }
+
+a {
+	color: var(--fg-color-1);
+	border-bottom: 2px solid transparent;
+	text-decoration: none;
+}
+
+a:hover {
+	border-bottom: 2px solid var(--fg-color-1);
+}

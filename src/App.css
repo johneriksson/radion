@@ -26,13 +26,12 @@
 }
 
 .App-header a {
-	color: var(--fg-color-1);
 	margin: 10px;
-	border-bottom: 2px solid transparent;
-	text-decoration: none;
 }
-.App-header a:hover {
-	border-bottom: 2px solid var(--fg-color-1);
+
+.App-header .username {
+	margin-left: 10px;
+	color: var(--fg-color-2);
 }
 
 .App-header .logo {
