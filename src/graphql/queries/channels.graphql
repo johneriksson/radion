@@ -1,5 +1,5 @@
-query Posts {
-	posts {
+query Channels {
+	channels {
 		id
 		createdAt
 		updatedAt

@@ -1,7 +1,7 @@
 import React from "react";
 // import "./Channels.css";
 import Channel from "../components/Channel";
-import { usePostsQuery } from "../generated/graphql";
+import { useChannelsQuery } from "../generated/graphql";
 
 const defaultChannels = [
 	{ id: "bandit", title: "Bandit Rock", streamURL: "http://fm02-ice.stream.khz.se/fm02_mp3", favorite: true },
@@ -61,12 +61,12 @@ function Channels() {
 		[channels, setChannels]
 	);
 
-	const [{data}] = usePostsQuery();
+	const [{data}] = useChannelsQuery();
 
 	return (
 		<div>
-			{!data && <div>Loading posts...</div>}
-			{data?.posts.map(p => (
+			{!data && <div>Loading channels...</div>}
+			{data?.channels.map(p => (
 				<div key={p.id}>{p.title}</div>
 			))}
 			{channels.map(channel => (

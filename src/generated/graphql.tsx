@@ -15,18 +15,18 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
-  posts: Array<Post>;
-  post?: Maybe<Post>;
+  channels: Array<Channel>;
+  channel?: Maybe<Channel>;
   me?: Maybe<User>;
 };
 
 
-export type QueryPostArgs = {
+export type QueryChannelArgs = {
   id: Scalars['Int'];
 };
 
-export type Post = {
-  __typename?: 'Post';
+export type Channel = {
+  __typename?: 'Channel';
   id: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -43,9 +43,9 @@ export type User = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createPost: Post;
-  updatePost?: Maybe<Post>;
-  deletePost: Scalars['Boolean'];
+  createChannel: Channel;
+  updateChannel?: Maybe<Channel>;
+  deleteChannel: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
   register: UserResponse;
@@ -54,18 +54,18 @@ export type Mutation = {
 };
 
 
-export type MutationCreatePostArgs = {
+export type MutationCreateChannelArgs = {
   title: Scalars['String'];
 };
 
 
-export type MutationUpdatePostArgs = {
+export type MutationUpdateChannelArgs = {
   title: Scalars['String'];
   id: Scalars['Int'];
 };
 
 
-export type MutationDeletePostArgs = {
+export type MutationDeleteChannelArgs = {
   id: Scalars['Int'];
 };
 
@@ -186,6 +186,17 @@ export type RegisterMutation = (
   ) }
 );
 
+export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ChannelsQuery = (
+  { __typename?: 'Query' }
+  & { channels: Array<(
+    { __typename?: 'Channel' }
+    & Pick<Channel, 'id' | 'createdAt' | 'updatedAt' | 'title'>
+  )> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -194,17 +205,6 @@ export type MeQuery = (
   & { me?: Maybe<(
     { __typename?: 'User' }
     & RegularUserFragment
-  )> }
-);
-
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PostsQuery = (
-  { __typename?: 'Query' }
-  & { posts: Array<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title'>
   )> }
 );
 
@@ -282,6 +282,20 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const ChannelsDocument = gql`
+    query Channels {
+  channels {
+    id
+    createdAt
+    updatedAt
+    title
+  }
+}
+    `;
+
+export function useChannelsQuery(options: Omit<Urql.UseQueryArgs<ChannelsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ChannelsQuery>({ query: ChannelsDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -292,18 +306,4 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
-};
-export const PostsDocument = gql`
-    query Posts {
-  posts {
-    id
-    createdAt
-    updatedAt
-    title
-  }
-}
-    `;
-
-export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };

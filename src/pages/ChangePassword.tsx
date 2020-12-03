@@ -44,7 +44,7 @@ const ChangePassword = () => {
 			setUser(response.data!.changePassword!.user!);
 			history.replace("/");
 		},
-		[newPassword, confirmPassword, token, changePassword, setNewPassword, setConfirmPassword, setErrors, setUser],
+		[newPassword, confirmPassword, token, changePassword, setNewPassword, setConfirmPassword, setErrors, setUser, history],
 	);
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
