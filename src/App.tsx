@@ -1,20 +1,24 @@
 import React from "react";
 import {
-	BrowserRouter as Router,
+	Router,
 	Switch,
 	Route,
 	Link
 } from "react-router-dom";
 
-import "./App.css";
 import { useLogoutMutation } from "./generated/graphql";
 import { useUser } from "./hooks/useUser";
 import ChangePassword from "./pages/ChangePassword";
 
 import Channels from "./pages/Channels";
+import { CreateChannel } from "./pages/CreateChannel";
 import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import history from "./utils/history";
+
+import "./App.css";
+import "./FormPage.css";
 
 function App() {
 	const [user, setUser] = useUser();
@@ -22,7 +26,7 @@ function App() {
 
 	console.log("user", user);
 	return (
-		<Router>
+		<Router history={history}>
 			<div className="App">
 				<header className="App-header">
 					<div>
@@ -37,6 +41,7 @@ function App() {
 						<Link to="/">Channels</Link>
 						{user?.username && (
 							<>
+								<Link to="/create-channel">Create channel</Link>
 								<Link
 									to="/"
 									onClick={async (e) => {
@@ -64,6 +69,10 @@ function App() {
 							<Channels />
 						</Route>
 
+						<Route path="/create-channel">
+							<CreateChannel />
+						</Route>
+						
 						<Route path="/register">
 							<Register />
 						</Route>

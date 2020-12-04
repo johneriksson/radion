@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useLoginMutation } from "../generated/graphql";
-import { useIndexRedirectIfLoggedIn } from "../hooks/useIndexRedirectIfLoggedIn";
+import { useRedirectIfLoggedIn } from "../hooks/useRedirectIfLoggedIn";
 import { useUser } from "../hooks/useUser";
 
 import "./AuthPage.css";
@@ -13,7 +13,7 @@ const Login = () => {
 	const [password, setPassword] = React.useState("");
 	const [errors, setErrors] = React.useState<FieldError[]>([]);
 	const [, setUser] = useUser();
-	useIndexRedirectIfLoggedIn();
+	useRedirectIfLoggedIn();
 
 	const [, login] = useLoginMutation();
 
@@ -44,7 +44,7 @@ const Login = () => {
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
 	return (
-		<div className="auth-page">
+		<div className="form-page">
 			<h1>Login</h1>
 
 			<form onSubmit={onSubmit}>
@@ -83,6 +83,6 @@ const Login = () => {
 			</form>
 		</div>
 	);
-}
+};
 
 export default Login;

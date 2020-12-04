@@ -1,8 +1,9 @@
 query Channels {
 	channels {
 		id
+		title
+		streamURL
 		createdAt
 		updatedAt
-		title
 	}
 }

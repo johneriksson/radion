@@ -1,20 +1,18 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useRegisterMutation } from "../generated/graphql";
-import { useIndexRedirectIfLoggedIn } from "../hooks/useIndexRedirectIfLoggedIn";
+import { useRedirectIfLoggedIn } from "../hooks/useRedirectIfLoggedIn";
 import { useUser } from "../hooks/useUser";
 
 import "./AuthPage.css";
 
 const Register = () => {
-	const history = useHistory();
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [errors, setErrors] = React.useState<FieldError[]>([]);
 	const [, setUser] = useUser();
-	useIndexRedirectIfLoggedIn();
+	useRedirectIfLoggedIn();
 
 	const [, register] = useRegisterMutation();
 
@@ -40,12 +38,12 @@ const Register = () => {
 			setEmail("");
 			setPassword("");
 		},
-		[email, password, register, history]
+		[email, password, register, setUser]
 	);
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
 	return (
-		<div className="auth-page">
+		<div className="form-page">
 			<h1>Register</h1>
 
 			<form onSubmit={onSubmit}>

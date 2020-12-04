@@ -32,7 +32,7 @@ const ForgotPassword = () => {
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
 	return (
-		<div className="auth-page">
+		<div className="form-page">
 			<h1>Forgot password</h1>
 
 			<form onSubmit={onSubmit}>

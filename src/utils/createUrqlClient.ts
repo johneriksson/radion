@@ -1,6 +1,20 @@
-import { Client, createClient, dedupExchange, fetchExchange } from "urql";
-import { cacheExchange, Cache, QueryInput } from "@urql/exchange-graphcache";
+import { Cache, cacheExchange, QueryInput } from "@urql/exchange-graphcache";
+import { Client, createClient, dedupExchange, Exchange, fetchExchange } from "urql";
+import { pipe, tap } from "wonka";
 import { ChangePasswordMutation, LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation } from "../generated/graphql";
+import history from "./history";
+
+const errorExchange: Exchange = ({ forward }) => (ops$) => {
+	return pipe(
+		forward(ops$),
+		tap(({ error }) => {
+			if (error?.message.includes("authenticated")) {
+				// TODO: Pass a state so that we can display message to user on login page
+				history.push("/login");
+			}
+		})
+	)
+}
 
 function betterUpdateQuery<Result, Query>(
 	cache: Cache,
@@ -82,6 +96,7 @@ export const createUrqlClient: () => Client = () => {
 					}
 				}
 			}),
+			errorExchange,
 			fetchExchange,
 		],
 	});

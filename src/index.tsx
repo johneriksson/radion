@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createUrqlClient } from "./utils/createUrqlClient";
 import { Provider } from "urql";
+
+import "./index.css";
 
 const client = createUrqlClient();
 

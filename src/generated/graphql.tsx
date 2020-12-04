@@ -28,17 +28,19 @@ export type QueryChannelArgs = {
 export type Channel = {
   __typename?: 'Channel';
   id: Scalars['Float'];
+  title: Scalars['String'];
+  streamURL: Scalars['String'];
+  creatorId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-  title: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
+  username: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-  username: Scalars['String'];
 };
 
 export type Mutation = {
@@ -55,7 +57,7 @@ export type Mutation = {
 
 
 export type MutationCreateChannelArgs = {
-  title: Scalars['String'];
+  input: ChannelInput;
 };
 
 
@@ -88,6 +90,11 @@ export type MutationRegisterArgs = {
 
 export type MutationLoginArgs = {
   options: UsernamePasswordInput;
+};
+
+export type ChannelInput = {
+  title: Scalars['String'];
+  streamURL: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -142,6 +149,19 @@ export type ChangePasswordMutation = (
   ) }
 );
 
+export type CreateChannelMutationVariables = Exact<{
+  input: ChannelInput;
+}>;
+
+
+export type CreateChannelMutation = (
+  { __typename?: 'Mutation' }
+  & { createChannel: (
+    { __typename?: 'Channel' }
+    & Pick<Channel, 'id' | 'title' | 'streamURL' | 'createdAt' | 'updatedAt'>
+  ) }
+);
+
 export type ForgotPasswordMutationVariables = Exact<{
   username: Scalars['String'];
 }>;
@@ -193,7 +213,7 @@ export type ChannelsQuery = (
   { __typename?: 'Query' }
   & { channels: Array<(
     { __typename?: 'Channel' }
-    & Pick<Channel, 'id' | 'createdAt' | 'updatedAt' | 'title'>
+    & Pick<Channel, 'id' | 'title' | 'streamURL' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -242,6 +262,21 @@ export const ChangePasswordDocument = gql`
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
 };
+export const CreateChannelDocument = gql`
+    mutation CreateChannel($input: ChannelInput!) {
+  createChannel(input: $input) {
+    id
+    title
+    streamURL
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useCreateChannelMutation() {
+  return Urql.useMutation<CreateChannelMutation, CreateChannelMutationVariables>(CreateChannelDocument);
+};
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($username: String!) {
   forgotPassword(username: $username)
@@ -286,9 +321,10 @@ export const ChannelsDocument = gql`
     query Channels {
   channels {
     id
+    title
+    streamURL
     createdAt
     updatedAt
-    title
   }
 }
     `;
