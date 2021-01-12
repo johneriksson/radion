@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { FieldError, useLoginMutation } from "../generated/graphql";
 import { useRedirectIfLoggedIn } from "../hooks/useRedirectIfLoggedIn";
 import { useUser } from "../hooks/useUser";
+import { LocationState } from "../utils/locationState";
 
 import "./AuthPage.css";
 
@@ -43,6 +44,10 @@ const Login = () => {
 	);
 
 	const generalErrorMessage = errors.find(e => e.field === "general")?.message;
+
+	const location = useLocation<LocationState>();
+	const message = location?.state?.message ?? generalErrorMessage;
+
 	return (
 		<div className="form-page">
 			<h1>Login</h1>
@@ -79,7 +84,7 @@ const Login = () => {
 					Forgot password
 				</Link>
 
-				{generalErrorMessage && <p style={{ color: "var(--color-error)" }}>{generalErrorMessage}</p>}
+				{message && <p style={{ color: "var(--color-error)" }}>{message}</p>}
 			</form>
 		</div>
 	);

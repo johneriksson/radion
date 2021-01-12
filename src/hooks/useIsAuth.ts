@@ -9,9 +9,10 @@ export const useIsAuth = () => {
 	React.useEffect(() => {
 		if (!fetching && !data?.me) {
 			// TODO: Pass a state so that we can display message to user on login page
-			history.push({
+			history.replace({
 				pathname: "/login",
 				state: {
+					message: "You need to be logged in to do that!",
 					returnTo: history.location.pathname,
 				},
 			});

@@ -24,7 +24,6 @@ function App() {
 	const [user, setUser] = useUser();
 	const [, logout] = useLogoutMutation();
 
-	console.log("user", user);
 	return (
 		<Router history={history}>
 			<div className="App">

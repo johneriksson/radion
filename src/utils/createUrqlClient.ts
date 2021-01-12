@@ -9,8 +9,13 @@ const errorExchange: Exchange = ({ forward }) => (ops$) => {
 		forward(ops$),
 		tap(({ error }) => {
 			if (error?.message.includes("authenticated")) {
-				// TODO: Pass a state so that we can display message to user on login page
-				history.push("/login");
+				history.replace({
+					pathname: "/login",
+					state: {
+						message: "You need to be logged in to do that!",
+						returnTo: window.location.pathname,
+					},
+				});
 			}
 		})
 	)
