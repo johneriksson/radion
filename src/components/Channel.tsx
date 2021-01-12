@@ -4,11 +4,11 @@ import Button from "./Button";
 import "./Channel.css";
 
 interface Props {
-    id: string,
+    id: number,
     title: string,
     logoURL?: string,
-    onPlayPauseClick: (channelId: string) => void,
-    onFavoriteClick: (channelId: string) => void,
+    onPlayPauseClick: (channelId: number) => void,
+    // onFavoriteClick: (channelId: number) => void,
     isPlaying: boolean,
     favorite?: boolean,
 }
@@ -17,7 +17,7 @@ const Channel: React.FC<Props> = ({
     id,
     title,
     onPlayPauseClick,
-    onFavoriteClick,
+    // onFavoriteClick,
     isPlaying,
     favorite,
 }) => {
@@ -30,7 +30,7 @@ const Channel: React.FC<Props> = ({
             </div>
             <div className="controls">
                 <Button title={isPlaying ? "PAUSE" : "PLAY"} onClick={e => onPlayPauseClick(id)} />
-                <Button title={favorite ? "UNSAVE" : "SAVE"} onClick={e => onFavoriteClick(id)} />
+                {/* <Button title={favorite ? "UNSAVE" : "SAVE"} onClick={e => onFavoriteClick(id)} /> */}
             </div>
         </div>
     );
