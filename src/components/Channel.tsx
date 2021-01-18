@@ -10,7 +10,10 @@ interface Props {
     onPlayPauseClick: (channelId: number) => void,
     // onFavoriteClick: (channelId: number) => void,
     isPlaying: boolean,
-    favorite?: boolean,
+    // favorite?: boolean,
+    creator: {
+        username: string,
+    },
 }
 
 const Channel: React.FC<Props> = ({
@@ -19,7 +22,8 @@ const Channel: React.FC<Props> = ({
     onPlayPauseClick,
     // onFavoriteClick,
     isPlaying,
-    favorite,
+    // favorite,
+    creator,
 }) => {
 
     return (
@@ -27,6 +31,7 @@ const Channel: React.FC<Props> = ({
             <div className="logo"></div>
             <div className="info">
                 <h1>{title}</h1>
+                <p>Added by <strong>{creator.username}</strong></p>
             </div>
             <div className="controls">
                 <Button title={isPlaying ? "PAUSE" : "PLAY"} onClick={e => onPlayPauseClick(id)} />

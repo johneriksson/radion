@@ -15,14 +15,26 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
-  channels: Array<Channel>;
+  channels: PaginatedResponse;
   channel?: Maybe<Channel>;
   me?: Maybe<User>;
 };
 
 
+export type QueryChannelsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
 export type QueryChannelArgs = {
   id: Scalars['Int'];
+};
+
+export type PaginatedResponse = {
+  __typename?: 'PaginatedResponse';
+  items: Array<Channel>;
+  hasMore: Scalars['Boolean'];
 };
 
 export type Channel = {
@@ -31,6 +43,7 @@ export type Channel = {
   title: Scalars['String'];
   streamURL: Scalars['String'];
   creatorId: Scalars['Float'];
+  creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -45,14 +58,19 @@ export type User = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteChannel: Scalars['Boolean'];
   createChannel: Channel;
   updateChannel?: Maybe<Channel>;
-  deleteChannel: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
   register: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
+};
+
+
+export type MutationDeleteChannelArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -63,11 +81,6 @@ export type MutationCreateChannelArgs = {
 
 export type MutationUpdateChannelArgs = {
   title: Scalars['String'];
-  id: Scalars['Int'];
-};
-
-
-export type MutationDeleteChannelArgs = {
   id: Scalars['Int'];
 };
 
@@ -206,15 +219,26 @@ export type RegisterMutation = (
   ) }
 );
 
-export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ChannelsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
 
 export type ChannelsQuery = (
   { __typename?: 'Query' }
-  & { channels: Array<(
-    { __typename?: 'Channel' }
-    & Pick<Channel, 'id' | 'title' | 'streamURL' | 'createdAt' | 'updatedAt'>
-  )> }
+  & { channels: (
+    { __typename?: 'PaginatedResponse' }
+    & Pick<PaginatedResponse, 'hasMore'>
+    & { items: Array<(
+      { __typename?: 'Channel' }
+      & Pick<Channel, 'id' | 'title' | 'streamURL' | 'createdAt' | 'updatedAt'>
+      & { creator: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'username'>
+      ) }
+    )> }
+  ) }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -318,13 +342,20 @@ export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const ChannelsDocument = gql`
-    query Channels {
-  channels {
-    id
-    title
-    streamURL
-    createdAt
-    updatedAt
+    query Channels($limit: Int!, $cursor: String) {
+  channels(limit: $limit, cursor: $cursor) {
+    hasMore
+    items {
+      id
+      title
+      streamURL
+      createdAt
+      updatedAt
+      creator {
+        id
+        username
+      }
+    }
   }
 }
     `;

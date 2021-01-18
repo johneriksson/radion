@@ -3,7 +3,9 @@
     height: 70px;
     background-color: var(--bg-color-2);
 	margin-bottom: 10px;
-	border-radius: 6px;
+    border-radius: 6px;
+    
+    overflow: hidden;
 }
 
 .channel .logo {
@@ -13,13 +15,16 @@
 .channel .info {
     flex: 1;
     padding: 5px 10px;
-
-	display: flex;
-	align-items: center;
 }
 
 .channel .info h1 {
     font-size: 1rem;
+    color: var(--fg-color-1);
+    margin-bottom: 5px;
+}
+.channel .info p {
+    font-size: .7rem;
+    color: var(--fg-color-2);
 }
 
 .channel .controls {

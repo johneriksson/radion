@@ -1,5 +1,5 @@
-import { Cache, cacheExchange, QueryInput } from "@urql/exchange-graphcache";
-import { Client, createClient, dedupExchange, Exchange, fetchExchange } from "urql";
+import { Cache, cacheExchange, QueryInput, Resolver } from "@urql/exchange-graphcache";
+import { Client, createClient, dedupExchange, Exchange, fetchExchange, stringifyVariables } from "urql";
 import { pipe, tap } from "wonka";
 import { ChangePasswordMutation, LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation } from "../generated/graphql";
 import history from "./history";
@@ -30,6 +30,41 @@ function betterUpdateQuery<Result, Query>(
 	return cache.updateQuery(qi, data => fn(result, data as any) as any);
 }
 
+const cursorPagination = (): Resolver => {
+	return (_parent, fieldArgs, cache, info) => {
+		const { parentKey: entityKey, fieldName } = info;
+		const allFields = cache.inspectFields(entityKey);
+		const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
+		if (!fieldInfos.length) {
+			return undefined;
+		}
+
+		const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
+		const isItInTheCache = cache.resolve(
+			cache.resolveFieldByKey(entityKey, fieldKey) as string,
+			"items"
+		);
+		info.partial = !isItInTheCache;
+		let hasMore = true;
+		const results: string[] = [];
+		fieldInfos.forEach((fi) => {
+			const key = cache.resolveFieldByKey(entityKey, fi.fieldKey) as string;
+			const data = cache.resolve(key, "items") as string[];
+			const _hasMore = cache.resolve(key, "hasMore");
+			if (!_hasMore) {
+				hasMore = _hasMore as boolean;
+			}
+			results.push(...data);
+		});
+
+		return {
+			__typename: "PaginatedResponse",
+			hasMore,
+			items: results,
+		};
+	};
+};
+
 export const createUrqlClient: () => Client = () => {
 	return createClient({
 		// url: "http://192.168.10.128:4000/graphql",
@@ -40,6 +75,14 @@ export const createUrqlClient: () => Client = () => {
 		exchanges: [
 			dedupExchange,
 			cacheExchange({
+				keys: {
+					PaginatedResponse: () => null,
+				},
+				resolvers: {
+					Query: {
+						channels: cursorPagination(),
+					},
+				},
 				updates: {
 					Mutation: {
 						login: (result, _args, cache, _info) => {

@@ -1,5 +1,6 @@
 import React from "react";
-// import "./Channels.css";
+
+import Button from "../components/Button";
 import Channel from "../components/Channel";
 import { useChannelsQuery } from "../generated/graphql";
 
@@ -12,8 +13,6 @@ import { useChannelsQuery } from "../generated/graphql";
 // 	{ id: "svensk-pop", title: "Svensk Pop", streamURL: "http://tx-bauerse.sharp-stream.com/http_live.php?i=svenskpop_se_mp3" },
 // 	{ id: "vinyl-fm", title: "Vinyl FM", streamURL: "http://tx-bauerse.sharp-stream.com/http_live.php?i=vinylfm_instream_se_mp3" },
 // 	{ id: "lugna-klassiker", title: "Lugna Klassiker", streamURL: "https://live-bauerse-fm.sharp-stream.com/lugnaklassiker_instream_se_mp3" },
-// 	// { id: "radio-1075", title: "Radio 107,5", streamURL: "https://live-bauerse-online.sharp-stream.com/749_se_mp3" },
-// 	// { id: "schlagerstationen", title: "Schlagerstationen", streamURL: "https://live-bauerse-online.sharp-stream.com/169_se_mp3" },
 // 	{ id: "retro-fm", title: "Retro FM", streamURL: "https://live-bauerse-fm.sharp-stream.com/retrofm_mp3" },
 // ];
 
@@ -22,7 +21,15 @@ function Channels() {
 	const [playingChannelId, setPlayingChannelId] = React.useState<number | null>(null);
 	const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
 
-	const [{ data: channels }] = useChannelsQuery();
+	const [variables, setVariables] = React.useState({
+		limit: 2,
+		cursor: null as null | string,
+	});
+	const [{ data, fetching, stale }] = useChannelsQuery({
+		variables,
+	});
+
+	const isLoading = fetching || stale;
 
 	const onPlayPauseClick = React.useCallback(
 		(channelId: number) => {
@@ -36,7 +43,7 @@ function Channels() {
 				}
 			} else {
 				audio?.pause();
-				const channel = channels?.channels.find(c => c.id === channelId);
+				const channel = data?.channels.items.find(c => c.id === channelId);
 				const newAudio = new Audio(channel?.streamURL);
 				newAudio.volume = 0.1;
 				newAudio.play();
@@ -45,35 +52,32 @@ function Channels() {
 				setPlayingChannelId(channelId);
 			}
 		},
-		[channels, isPlaying, playingChannelId, audio, setAudio, setIsPlaying, setPlayingChannelId]
+		[data, isPlaying, playingChannelId, audio, setAudio, setIsPlaying, setPlayingChannelId]
 	);
-
-	// const onFavoriteClick = React.useCallback(
-	// 	(channelId: number) => {
-	// 		const index = channels?.channels.findIndex(c => c.id === channelId) ?? -1;
-	// 		if (index >= 0) {
-	// 			const channel = { ...channels?.channels[index] };
-	// 			channel.favorite = !channel?.favorite;
-	// 			const newChannels = [...channels];
-	// 			newChannels.splice(index, 1, channel);
-	// 			setChannels(newChannels);
-	// 		}
-	// 	},
-	// 	[channels, setChannels]
-	// );
 
 	return (
 		<div>
-			{!channels && <div>Loading channels...</div>}
-			{channels?.channels.map(channel => (
+			{!data && <div>Loading channels...</div>}
+			{data?.channels.items.map(channel => (
 				<Channel
 					key={channel.id}
 					onPlayPauseClick={onPlayPauseClick}
-					// onFavoriteClick={onFavoriteClick}
 					isPlaying={playingChannelId === channel.id && isPlaying === true}
 					{...channel}
 				/>
 			))}
+			{data?.channels.hasMore && (
+				<Button
+					title={isLoading ? "Loading more..." : "Load more"}
+					onClick={() => {
+						setVariables({
+							limit: variables.limit,
+							cursor: data.channels.items[data.channels.items.length - 1].createdAt,
+						})
+					}}
+					disabled={isLoading}
+				/>
+			)}
 		</div>
 	);
 }

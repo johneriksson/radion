@@ -1,9 +1,16 @@
-query Channels {
-	channels {
-		id
-		title
-		streamURL
-		createdAt
-		updatedAt
+query Channels($limit: Int!, $cursor: String) {
+	channels(limit: $limit, cursor: $cursor) {
+		hasMore
+		items {
+			id
+			title
+			streamURL
+			createdAt
+			updatedAt
+			creator {
+				id
+				username
+			}
+		}
 	}
 }
